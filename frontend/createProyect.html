@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crear Proyecto | ContactApp</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+  <style>
+    body,
+    html {
+      height: 100%;
+      margin: 0;
+      font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f0f4f8;
+    }
+
+    .split {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* CARTA FORMULARIO (izquierda) */
+    .left {
+      flex: 1.2;
+      background: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 3rem;
+      box-shadow: 5px 0 20px rgba(0, 0, 0, 0.05);
+      position: relative;
+      overflow-y: auto;
+    }
+
+    .form-container {
+      width: 100%;
+      max-width: 600px;
+      border-radius: 1rem;
+      padding: 3rem;
+      background: #f8faff;
+      display: flex;
+      flex-direction: column;
+      justify-content: start;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+      margin: 2rem 0;
+    }
+
+    h1 {
+      color: #1e3a8a;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      text-align: center;
+      font-size: 2.2rem;
+    }
+
+    textarea.form-control {
+      height: 150px;
+      resize: vertical;
+    }
+
+    .category-tag {
+      display: inline-block;
+      background: #e0f2fe;
+      color: #0369a1;
+      padding: 5px 10px;
+      margin: 3px;
+      border-radius: 20px;
+      cursor: pointer;
+      user-select: none;
+      transition: 0.2s;
+    }
+
+    .category-tag.selected {
+      background: #3b82f6;
+      color: #fff;
+    }
+
+    #selectedCategories {
+      margin-top: 10px;
+    }
+
+    /* SECCIÓN DERECHO */
+    .right {
+      flex: 0.8;
+      background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 4rem;
+      color: #1e3a8a;
+      position: relative;
+      overflow-y: auto;
+    }
+
+    .right h2 {
+      font-weight: 800;
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .right p {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    /* 🔙 Botón de regreso */
+    .back-arrow {
+      position: absolute;
+      top: 20px;
+      left: 25px;
+      font-size: 1.8rem;
+      color: #1e3a8a;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .back-arrow:hover {
+      color: #2563eb;
+      transform: translateX(-5px);
+    }
+
+    #notification-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+    }
+
+    @media (max-width: 992px) {
+      .split {
+        flex-direction: column;
+      }
+
+      .left,
+      .right {
+        flex: none;
+        width: 100%;
+        height: auto;
+        padding: 2rem;
+      }
+
+      .form-container {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+      }
+
+      .back-arrow {
+        top: 15px;
+        left: 20px;
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="split">
+    <div class="left">
+      <!-- 🔙 Flechita para volver -->
+      <a href="mainpage.html" class="back-arrow"><i class="fa-solid fa-arrow-left"></i></a>
+
+      <div class="form-container">
+        <h1>Crear Nuevo Proyecto</h1>
+        <form id="createProjectForm">
+          <div class="mb-3 text-start">
+            <label class="form-label"><i class="fa-solid fa-pen"></i> Nombre del proyecto</label>
+            <input type="text" id="name" class="form-control" placeholder="Nombre del proyecto" required>
+          </div>
+
+          <div class="mb-3 text-start">
+            <label class="form-label"><i class="fa-solid fa-align-left"></i> Descripción</label>
+            <textarea id="description" class="form-control" placeholder="Descripción del proyecto" required></textarea>
+          </div>
+
+          <div class="mb-3 text-start">
+            <label class="form-label"><i class="fa-solid fa-tags"></i> Categorías</label>
+            <div id="categoriesContainer"></div>
+            <div id="selectedCategories"></div>
+          </div>
+
+          <div class="mb-3 text-start">
+            <label class="form-label"><i class="fa-solid fa-info-circle"></i> Estado</label>
+            <select id="status" class="form-select" required>
+              <option value="Looking for members">Buscando miembros</option>
+              <option value="Work in progress">En progreso</option>
+              <option value="Closed">Cerrado</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100 mb-3">Crear Proyecto</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="right">
+      <h2>¡Empecemos a crear!</h2>
+      <p>Selecciona las categorías que describan tu proyecto y agrega un nombre y descripción. <br>
+        Más tarde podrás agregar colaboradores y gestionar tu proyecto fácilmente.</p>
+    </div>
+  </div>
+
+  <div id="notification-container"></div>
+
+  <script type="module" src="/js/createProyectHandler.js"></script>
+<script type="module">
+  import { requireSession } from "./js/session.js";
+  window.user = requireSession(); // ⚠️ redirige al login si no hay sesión
+
+  if (!window.user) {
+    window.location.href = "/index.html"; // doble seguridad
+  }
+</script>
+<script type="module">
+  import { logout } from "./js/session.js";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Mostrar username en navbar
+    const navbarUsername = document.getElementById("navbarUsername");
+    if (navbarUsername && window.user) {
+      navbarUsername.textContent = window.user.username;
+    }
+
+    // Logout
+    const logoutBtn = document.getElementById("logoutBtn");
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        logout();
+      });
+    }
+  });
+</script>
+
+
+</body>
+
+</html>

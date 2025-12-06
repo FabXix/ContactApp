@@ -1,0 +1,409 @@
+openapi: 3.0.0
+info:
+  title: Proyecto API
+  version: 1.0.0
+  description: API para manejo de usuarios y proyectos.
+
+servers:
+  - url: http://localhost:3000
+
+paths:
+
+  ############################################################
+  # USERS
+  ############################################################
+
+  /users:
+    post:
+      summary: Crear usuario
+      tags: [Users]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+      responses:
+        '201':
+          description: Usuario creado
+        '400':
+          description: Campos faltantes o correo duplicado
+
+    get:
+      summary: Obtener todos los usuarios
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de usuarios
+
+  /users/login:
+    post:
+      summary: Login de usuario
+      tags: [Users]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+      responses:
+        '200':
+          description: Login exitoso
+        '401':
+          description: Credenciales incorrectas
+
+  /users/{id}:
+    get:
+      summary: Obtener usuario por ID
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Usuario encontrado
+        '404':
+          description: No encontrado
+
+    put:
+      summary: Editar usuario
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+      responses:
+        '200':
+          description: Usuario actualizado
+
+    delete:
+      summary: Eliminar usuario
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Usuario eliminado
+
+  ############################################################
+  # PROJECTS
+  ############################################################
+
+  /projects:
+    post:
+      summary: Crear proyecto
+      tags: [Projects]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectCreate'
+      responses:
+        '201':
+          description: Proyecto creado
+
+    get:
+      summary: Obtener lista de proyectos con filtros
+      tags: [Projects]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: limit
+          schema:
+            type: integer
+        - in: query
+          name: search
+          schema:
+            type: string
+        - in: query
+          name: categoria
+          schema:
+            type: string
+        - in: query
+          name: owner
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista filtrada
+
+  /projects/{projectId}:
+    get:
+      summary: Obtener proyecto por ID
+      tags: [Projects]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Proyecto encontrado
+
+    put:
+      summary: Editar proyecto
+      tags: [Projects]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectUpdate'
+      responses:
+        '200':
+          description: Proyecto actualizado
+
+    delete:
+      summary: Eliminar proyecto
+      tags: [Projects]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Proyecto eliminado
+
+  /projects/{projectId}/comments:
+    put:
+      summary: Agregar comentario
+      tags: [Comments]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentCreate'
+      responses:
+        '201':
+          description: Comentario agregado
+
+  /projects/{projectId}/comments/{commentId}:
+    put:
+      summary: Editar comentario
+      tags: [Comments]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+        - in: path
+          name: commentId
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentUpdate'
+      responses:
+        '200':
+          description: Comentario editado
+
+    delete:
+      summary: Eliminar comentario
+      tags: [Comments]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: projectId
+        - in: path
+          name: commentId
+      responses:
+        '200':
+          description: Comentario eliminado
+
+  /projects/{projectId}/join:
+    post:
+      summary: Enviar solicitud de unión
+      tags: [Requests]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+      responses:
+        '201':
+          description: Solicitud enviada
+
+  /projects/{projectId}/requests/{userId}:
+    put:
+      summary: Aceptar o rechazar solicitud
+      tags: [Requests]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+        - in: path
+          name: userId
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JoinRequestAction'
+      responses:
+        '200':
+          description: Acción completada
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+
+    ##################################################
+    # USERS SCHEMAS
+    ##################################################
+    UserCreate:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        email:
+          type: string
+        description:
+          type: string
+        rol:
+          type: string
+
+    UserLogin:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+
+    UserUpdate:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        description:
+          type: string
+        rol:
+          type: string
+
+    ##################################################
+    # PROJECT SCHEMAS
+    ##################################################
+    ProjectCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        categorias:
+          type: array
+          items:
+            type: string
+        colaboradores:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+        ownerId:
+          type: string
+
+    ProjectUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        categorias:
+          type: array
+          items:
+            type: string
+        colaboradores:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+
+    ##################################################
+    # COMMENTS
+    ##################################################
+    CommentCreate:
+      type: object
+      properties:
+        contenido:
+          type: string
+
+    CommentUpdate:
+      type: object
+      properties:
+        contenido:
+          type: string
+
+    ##################################################
+    # JOIN REQUEST
+    ##################################################
+    JoinRequestAction:
+      type: object
+      properties:
+        action:
+          type: string
+          enum: [accept, reject]

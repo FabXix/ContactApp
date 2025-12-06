@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ContactApp | Proyectos</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet" />
+    <script type="module">
+      // 🔹 Validar sesión inmediatamente al cargar
+      import { requireSession } from "./js/session.js";
+      window.user = requireSession(); // guardamos globalmente para todos los scripts
+    </script>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at top left, #e4edff, #f8faff 80%);
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 🔷 NAVBAR */
+    nav.navbar {
+      background: #6890ff;
+      padding: 0.8rem 2rem;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    nav .navbar-brand {
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: 0.5px;
+    }
+
+    nav .navbar-brand:hover {
+      color: #e0e7ff;
+    }
+
+    nav .nav-link {
+      color: #e0e7ff !important;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    nav .nav-link:hover {
+      color: #93c5fd !important;
+      transform: translateY(-2px);
+    }
+
+    /* 🔹 CONTENEDOR GENERAL */
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      padding: 3rem 1rem;
+    }
+
+    /* 🔹 CONTENEDOR DE PROYECTOS */
+    #projectsContainer {
+      width: 100%;
+      max-width: 1100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    /* 🔹 TARJETAS DE PROYECTO */
+    .project-post {
+      width: 100%;
+      background: #ffffff;
+      border-radius: 1rem;
+      padding: 1.5rem 2rem;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .project-post:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+    }
+
+    .project-title {
+      font-weight: 800;
+      font-size: 1.6rem;
+      color: #1e3a8a;
+      margin-bottom: 0.5rem;
+    }
+
+    .project-desc {
+      color: #334155;
+      font-size: 1rem;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+
+    .project-categories span {
+      display: inline-block;
+      background: #e0f2fe;
+      color: #0369a1;
+      font-weight: 500;
+      font-size: 0.85rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.5rem;
+      margin-right: 0.3rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .project-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+      color: #64748b;
+    }
+
+    .project-footer i {
+      margin-right: 0.3rem;
+    }
+
+    .project-actions button {
+      font-weight: 600;
+    }
+
+    @media (max-width: 992px) {
+      main {
+        padding: 2rem 1rem;
+      }
+
+      .project-post {
+        padding: 1.3rem 1.5rem;
+      }
+    }
+
+    /* 🔹 MODAL */
+    #editCategoriesContainer .category-tag,
+    #editSelectedCategories .category-tag {
+      display: inline-block;
+      background: #e0f2fe;
+      color: #0369a1;
+      padding: 5px 10px;
+      margin: 3px;
+      border-radius: 20px;
+      cursor: pointer;
+      user-select: none;
+      transition: 0.2s;
+    }
+
+    #editCategoriesContainer .category-tag.selected,
+    #editSelectedCategories .category-tag.selected {
+      background: #3b82f6;
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+<!-- 🔷 NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <a class="navbar-brand" href="mainpage.html">
+    <i class="fa-solid fa-address-book me-2"></i>ContactApp
+  </a>
+
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+
+    <!-- 🔍 Buscador (se mantiene) -->
+    <form id="searchForm" class="d-flex ms-3" role="search">
+      <input id="searchInput" class="form-control me-2" type="search"
+        placeholder="Buscar proyecto, usuario o categoría...">
+      <button class="btn btn-outline-light" type="submit">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </form>
+
+    <!-- Menú derecho -->
+    <ul class="navbar-nav align-items-center">
+
+      <li class="nav-item">
+        <a class="nav-link" href="mainpage.html">
+          <i class="fa-solid fa-house me-1"></i>Inicio
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="createProyect.html">
+          <i class="fa-solid fa-plus me-1"></i>Nuevo Proyecto
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="perfil.html">
+          <i class="fa-solid fa-user me-1"></i>Perfil
+        </a>
+      </li>
+
+      <!-- Admin (visible solo si corresponde) -->
+      <li class="nav-item" id="adminNavItem" style="display: none;">
+        <a class="nav-link" href="admin.html">
+          <i class="fa-solid fa-shield-halved me-1"></i>Admin
+        </a>
+      </li>
+
+      <!-- Cerrar sesión -->
+      <li class="nav-item ms-3">
+        <button type="button" id="logoutBtn" class="btn btn-outline-light btn-sm">
+          <i class="fa-solid fa-right-from-bracket me-1"></i>Cerrar sesión
+        </button>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- 🔹 CONTENEDOR CENTRAL -->
+<main>
+  <div id="projectsContainer" class="container mt-4"></div>
+</main>
+
+<!-- 🔹 MODAL EDICIÓN -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-4"
+      style="border-radius:1rem; background:#f8faff; box-shadow:0 15px 40px rgba(0,0,0,0.1);">
+      <div class="modal-header border-0">
+        <h5 class="modal-title" style="color:#1e3a8a; font-weight:800;">Editar Proyecto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <form id="editForm">
+          <div class="mb-3 text-start">
+            <label class="form-label"><i class="fa-solid fa-pen"></i> Nombre del proyecto</label>
+            <input type="text" class="form-control" name="name" placeholder="Nombre del proyecto" required>
+          </div>
+          <div class="mb-3 text-start">
+            <label class="form-label"><i class="fa-solid fa-align-left"></i> Descripción</label>
+            <textarea class="form-control" name="description" placeholder="Descripción del proyecto" rows="3"
+              required></textarea>
+          </div>
+          <div class="mb-3 text-start">
+            <label class="form-label"><i class="fa-solid fa-tags"></i> Categorías</label>
+            <div id="editCategoriesContainer"></div>
+            <div id="editSelectedCategories" style="margin-top:5px;"></div>
+          </div>
+          <div class="mb-3 text-start">
+            <label class="form-label"><i class="fa-solid fa-info-circle"></i> Estado</label>
+            <select name="status" class="form-select" required>
+              <option value="Looking for members">Buscando miembros</option>
+              <option value="Work in progress">En progreso</option>
+              <option value="Closed">Cerrado</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Guardar cambios</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 🔹 SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script type="module" src="/js/main.js"></script>
+<script type="module" src="/js/search.js"></script>
+<script type="module">
+  import { getSession, logout } from "/js/session.js";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const session = getSession();
+
+    if (!session) {
+      window.location.href = "/index.html";
+      return;
+    }
+
+    // Redirect admin directly to admin panel
+    if (session.rol === "Admin") {
+      window.location.href = "/admin.html";
+      return;
+    }
+    
+    const navbarUser = document.getElementById("navbarUsername");
+    if (navbarUser) {
+      navbarUser.textContent = session.username;
+    }
+
+    const logoutBtn = document.getElementById("logoutBtn");
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        logout();
+      });
+    }
+  });
+</script>
+
+
+
+</body>
+
+</html>

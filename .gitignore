@@ -1,0 +1,32 @@
+# Node modules
+node_modules/
+
+# Environment variables
+.env
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Data files (contain users & projects — DO NOT UPLOAD)
+data/*.json
+
+# Admin generated JSON
+admin-user.json
+
+# Temporary system files
+.DS_Store
+Thumbs.db
+
+# Coverage / test output
+coverage/
+tests/**
+
+# Cache
+.cache/
+.tmp/
+
+# VSCode settings (optional)
+.vscode/
