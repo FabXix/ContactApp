@@ -66,7 +66,7 @@ async function renderPendingRequests(p, requestsContainer) {
 async function handleRequest(projectId, userId, action) {
   const userToken = getUserToken();
   try {
-    const res = await fetch(`http://localhost:3000/projects/${projectId}/requests/${userId}`, {
+    const res = await fetch(`/projects/${projectId}/requests/${userId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

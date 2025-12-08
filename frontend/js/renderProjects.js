@@ -212,7 +212,7 @@ export async function renderProjects(data, reloadCallback) {
         requestDiv.appendChild(userNameSpan);
 
         try {
-          const userRes = await fetch(`http://localhost:3000/users/${userId}`, {
+          const userRes = await fetch(`/users/${userId}`, {
             headers: {
               "Authorization": `Bearer ${user.token}`
             }

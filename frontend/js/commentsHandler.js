@@ -76,7 +76,7 @@ export function handleComments(p, container, reloadCallback) {
 
               try {
                 const res = await fetch(
-                  `http://localhost:3000/projects/${p.id}/comments/${c.id}`,
+                  `/projects/${p.id}/comments/${c.id}`,
                   {
                     method: "PUT",
                     headers: {
@@ -145,7 +145,7 @@ export function handleComments(p, container, reloadCallback) {
 
             try {
               const res = await fetch(
-                `http://localhost:3000/projects/${p.id}/comments/${c.id}`,
+                `/projects/${p.id}/comments/${c.id}`,
                 {
                   method: "DELETE",
                   headers: {
@@ -195,7 +195,7 @@ export function handleComments(p, container, reloadCallback) {
 
     try {
       const res = await fetch(
-        `http://localhost:3000/projects/${p.id}/comments`,
+        `/projects/${p.id}/comments`,
         {
           method: "PUT",
           headers: {

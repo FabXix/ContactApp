@@ -171,7 +171,7 @@ async function loadMyProjects() {
   if (!projectList) return;
 
   try {
-    const res = await fetch(`http://localhost:3000/projects?owner=${sessionId}&limit=100`, {
+    const res = await fetch(`/projects?owner=${sessionId}&limit=100`, {
       headers: { "Authorization": `Bearer ${token}` }
     });
 
@@ -218,7 +218,7 @@ async function loadCollaborationProjects() {
   if (!collabList) return;
 
   try {
-    const res = await fetch(`http://localhost:3000/projects?limit=100`, {
+    const res = await fetch(`/projects?limit=100`, {
       headers: { "Authorization": `Bearer ${token}` }
     });
 
