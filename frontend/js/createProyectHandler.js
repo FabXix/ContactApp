@@ -1,7 +1,7 @@
 import { showNotification } from "./notifications.js";
 import { getSession } from "./session.js"; // 🔹 sesión unificada
 
-const API_URL = "http://localhost:3000/projects";
+const API_URL = "/projects";
 
 const categoriesContainer = document.getElementById("categoriesContainer");
 const selectedCategoriesDiv = document.getElementById("selectedCategories");

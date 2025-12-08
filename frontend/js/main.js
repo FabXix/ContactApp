@@ -1,6 +1,6 @@
 // frontend/js/main.js
 
-const API_URL = "http://localhost:3000/users";
+const API_URL = "/users";
 
 
 

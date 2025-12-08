@@ -2,7 +2,7 @@
 import { requireSession, getToken, getUserId, saveSession, logout } from "./session.js";
 import { showNotification } from "./notifications.js";
 
-const API_URL = "http://localhost:3000/users";
+const API_URL = "/users";
 
 const session = requireSession();
 if (!session) {

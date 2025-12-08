@@ -2,7 +2,7 @@
 
 import { getSession } from "../js/session.js";
 
-const API_URL = "http://localhost:3000";
+const API_URL = "";
 
 
 export function getUserToken() {

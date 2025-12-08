@@ -3,7 +3,7 @@ import { handleComments } from "./commentsHandler.js";
 import { deleteProject, getUserToken } from "./projectsAPI.js";
 import { showNotification } from "./notifications.js";
 
-const API_URL = "http://localhost:3000/projects";
+const API_URL = "/projects";
 
 
 async function sendJoinRequest(projectId) {
