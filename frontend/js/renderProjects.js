@@ -323,7 +323,7 @@ export async function renderProjects(data, reloadCallback) {
   const nextBtn = document.createElement("button");
   nextBtn.textContent = "Siguiente";
   nextBtn.classList.add("btn", "btn-secondary", "btn-sm");
-  const totalPages = Math.ceil(data.total / data.limit);
+  const totalPages = Math.ceil(10);
   nextBtn.disabled = data.page >= totalPages;
   nextBtn.onclick = () => reloadCallback(data.page + 1);
 
